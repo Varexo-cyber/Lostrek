@@ -144,7 +144,8 @@ def img(r, naam, sizes='(max-width: 960px) 100vw, 50vw', lui=True, alt=None, ext
     w, h = maat(naam)
     alt = BEELD[naam][0] if alt is None else alt
     laad = ' loading="lazy" decoding="async"' if lui else ' fetchpriority="high" decoding="async"'
-    return (f'<img src="{r}assets/img/{naam}.webp" srcset="{r}assets/img/{naam}-640.webp 640w, {r}assets/img/{naam}.webp {w}w" '
+    midden = f'{r}assets/img/{naam}-1024.webp 1024w, ' if (SITE / 'assets' / 'img' / f'{naam}-1024.webp').exists() else ''
+    return (f'<img src="{r}assets/img/{naam}.webp" srcset="{r}assets/img/{naam}-640.webp 640w, {midden}{r}assets/img/{naam}.webp {w}w" '
             f'sizes="{sizes}" alt="{E(alt)}" width="{w}" height="{h}"{laad}{extra}>')
 
 

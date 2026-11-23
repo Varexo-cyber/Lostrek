@@ -11,8 +11,9 @@
   --klei: #15120E;
   --klei-2: #221D17;
   --klei-3: #2E2820;
-  --oranje: #E8590C;
+  --oranje: #C2410C;
   --oranje-2: #F2711F;
+  --oranje-hover: #A63809;
   --oranje-zacht: #FCEBDD;
   --zand: #F5F1EA;
   --wit: #FFFFFF;
@@ -59,13 +60,14 @@ h3 { font-size: 1.45rem; line-height: 1.1; }
 .boven::before { content: ""; width: 26px; height: 3px; background: currentColor; }
 .lead { font-size: clamp(1.1rem, 1.5vw, 1.25rem); color: var(--zacht); line-height: 1.6; }
 .sec--donker .lead { color: var(--licht); }
+.hero .boven, .sec--donker .boven, .pkop .boven { color: var(--oranje-2); }
 .kop { display: grid; grid-template-columns: 1.1fr .9fr; gap: 20px 64px; align-items: end; margin-bottom: clamp(36px, 5vw, 60px); }
 .kop p { margin: 0; }
 .kop--midden { grid-template-columns: 1fr; text-align: center; justify-items: center; }
 
 /* knoppen */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 24px; border: 0; border-radius: var(--r); background: var(--oranje); color: #fff; font-family: var(--fk); font-weight: 700; font-size: 1.12rem; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; cursor: pointer; white-space: nowrap; transition: background .2s, transform .2s, box-shadow .2s; }
-.btn:hover { background: var(--oranje-2); transform: translateY(-1px); }
+.btn:hover { background: var(--oranje-hover); transform: translateY(-1px); }
 .btn svg { width: 20px; height: 20px; flex: none; }
 .btn--wa { background: var(--groen); }
 .btn--wa:hover { background: #0E8F48; }
@@ -110,12 +112,12 @@ h3 { font-size: 1.45rem; line-height: 1.1; }
 @keyframes kenburns { from { transform: scale(1.08); } to { transform: scale(1); } }
 .hero__in { max-width: 760px; }
 .hero h1 { color: #fff; margin-bottom: 22px; }
-.hero h1 em { font-style: normal; color: var(--oranje); }
+.hero h1 em { font-style: normal; color: var(--oranje-2); }
 .hero .lead { color: #D8D0C3; max-width: 600px; margin-bottom: 32px; }
 .hero__knoppen { display: flex; flex-wrap: wrap; gap: 12px; }
 .hero__punten { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 34px 0 0; padding: 0; list-style: none; color: #E9E3D9; font-weight: 600; }
 .hero__punten li { display: flex; align-items: center; gap: 9px; }
-.hero__punten svg { width: 20px; height: 20px; color: var(--oranje); }
+.hero__punten svg { width: 20px; height: 20px; color: var(--oranje-2); }
 .hero__bron { position: absolute; right: var(--gut); bottom: 14px; font-size: .74rem; color: rgba(255, 255, 255, .55); }
 
 /* strip met situaties direct onder de hero */
@@ -128,7 +130,7 @@ h3 { font-size: 1.45rem; line-height: 1.1; }
 .situaties { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .situatie { position: relative; border-radius: var(--r-lg); overflow: hidden; background: var(--klei); color: #fff; text-decoration: none; min-height: 360px; display: flex; align-items: flex-end; isolation: isolate; }
 .situatie img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; transition: transform .7s ease; }
-.situatie::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(21, 18, 14, 0) 30%, rgba(21, 18, 14, .92) 100%); }
+.situatie::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(21, 18, 14, 0) 22%, rgba(21, 18, 14, .78) 52%, rgba(21, 18, 14, .96) 100%); }
 .situatie:hover img { transform: scale(1.05); }
 .situatie__tekst { padding: 26px; }
 .situatie h3 { color: #fff; font-size: 1.75rem; margin-bottom: 8px; }
@@ -164,10 +166,11 @@ h3 { font-size: 1.45rem; line-height: 1.1; }
 .gebied { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
 .provkaarten { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .provkaart { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 16px 18px; border-radius: var(--r); background: var(--klei-2); border: 1px solid rgba(255, 255, 255, .08); color: #fff; text-decoration: none; transition: border-color .2s, background .2s; }
-.provkaart:hover { border-color: var(--oranje); background: var(--klei-3); }
+.provkaart:hover { border-color: var(--oranje-2); background: var(--klei-3); }
 .provkaart b { display: block; font-family: var(--fk); font-weight: 700; font-size: 1.25rem; text-transform: uppercase; letter-spacing: .02em; }
 .provkaart span { display: block; font-size: .88rem; color: var(--licht); }
-.provkaart svg { width: 18px; height: 18px; color: var(--oranje); flex: none; }
+.provkaart svg { width: 18px; height: 18px; color: var(--oranje-2); flex: none; }
+.provkaarten--licht .provkaart svg { color: var(--oranje); }
 .provkaarten--licht .provkaart { background: var(--wit); border-color: var(--lijn); color: var(--klei); }
 .provkaarten--licht .provkaart span { color: var(--zacht); }
 .provkaarten--licht .provkaart:hover { background: var(--wit); border-color: var(--oranje); }
