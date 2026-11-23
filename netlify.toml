@@ -1,13 +1,9 @@
 # Lostrek — instellingen voor Netlify
-# Netlify draait bij elke push de generator en publiceert de map site/.
+# De website staat kant-en-klaar in de map site/. Netlify publiceert die map,
+# er is geen bouwstap nodig. Na een wijziging in bron/: python3 bron/bouw.py
 
 [build]
-  base = "."
   publish = "site"
-  command = "python3 bron/bouw.py"
-
-[build.environment]
-  PYTHON_VERSION = "3.11"
 
 [[redirects]]
   from = "/index.html"

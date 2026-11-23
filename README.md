@@ -39,9 +39,9 @@ gestructureerde gegevens voor Google opnieuw aan in `site/`.
 
 ## Publiceren
 
-De site staat op Netlify en is gekoppeld aan deze repository. Bij elke push naar
-`main` draait Netlify `python3 bron/bouw.py` en publiceert de map `site/`
-(zie `netlify.toml`).
+De site staat op Netlify en is gekoppeld aan deze repository. Netlify publiceert
+bij elke push naar `main` de map `site/` (zie `netlify.toml`). Draai na een
+wijziging in `bron/` eerst `python3 bron/bouw.py` en commit de map `site/` mee.
 
 ## Google
 
