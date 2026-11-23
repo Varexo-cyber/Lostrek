@@ -1,0 +1,29 @@
+{
+  "naam": "Lostrek",
+  "ondertitel": "Hulp bij een vastgereden auto",
+  "domein": "https://lostrek.nl",
+
+  "telefoon": "085 744 4166",
+  "telefoonLink": "+31857444166",
+  "whatsapp": "31857444166",
+  "email": "",
+
+  "bedrijf": "D&D Mobiliteit B.V.",
+  "straat": "Kraijenhoffstraat 137 A",
+  "postcode": "1018 RG",
+  "plaats": "Amsterdam",
+  "kvk": "98721607",
+
+  "regio": "heel Nederland",
+  "openingstijden": [
+    ["Maandag t/m vrijdag", "Dag en nacht"],
+    ["Zaterdag en zondag", "Dag en nacht"]
+  ],
+  "openingstijdenSchema": ["Mo-Su 00:00-23:59"],
+
+  "google": {
+    "verificatie": "",
+    "profielUrl": "",
+    "reviewUrl": ""
+  }
+}
