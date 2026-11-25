@@ -50,13 +50,14 @@ def icon(naam, extra=''):
             f'stroke-linejoin="round" aria-hidden="true"{extra}>{ICONEN[naam]}</svg>')
 
 
-LOGO_MERK = ('<svg class="logo__merk" viewBox="0 0 40 40" aria-hidden="true">'
-             '<rect width="40" height="40" rx="7" fill="#F2A900"/><path d="M13 27V18.5a7 7 0 0 1 14 0V27" fill="none" stroke="#1E2526" stroke-width="3.6"/><circle cx="13" cy="28" r="3.6" fill="none" stroke="#1E2526" stroke-width="2.6"/><circle cx="27" cy="28" r="3.6" fill="none" stroke="#1E2526" stroke-width="2.6"/><path d="M7.5 28h25" stroke="#1E2526" stroke-width="2.8" stroke-linecap="round"/><circle cx="33" cy="28" r="2.6" fill="#1E2526"/></svg>')
+LOGO_MERK = ('<svg class="logo__merk" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="6" fill="#E8590C"/>'
+             '<path d="M7 29.5c3.2-2.4 5.8-2.4 9 0s5.8 2.4 9 0 4.6-2.2 8-.4" fill="none" stroke="#15120E" stroke-width="3" stroke-linecap="round"/>'
+             '<path d="M12.5 23.5 27 9M17.5 9H27v9.5" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="square"/></svg>')
 
 
 def logo(r):
     return (f'<a class="logo" href="{r}./" aria-label="{E(C["naam"])}, naar de homepage">{LOGO_MERK}'
-            f'<b>{E(C["naam"])}</b></a>')
+            f'<div><b>{E(C["naam"]).upper()}</b><span>{E(C["ondertitel"])}</span></div></a>')
 
 
 # ---------------------------------------------------------------- data
@@ -182,13 +183,13 @@ def footer(r):
             f'<div><h2 class="ftr__kop">Contact</h2><ul><li><a href="tel:{C["telefoonLink"]}">{TELNR}</a></li>'
             f'<li><a href="{wa()}">WhatsApp</a></li><li><a href="{r}hulp-aanvragen.html">Hulp aanvragen</a></li>'
             f'<li><a href="{r}veelgestelde-vragen.html">Veelgestelde vragen</a></li><li><a href="{r}contact.html">Contact</a></li></ul></div>'
-            f'</div><div class="ftr__onder"><span>&copy; {time.strftime("%Y")} {E(C["naam"])} is een handelsnaam van {E(C["bedrijf"])}, KvK {E(C["kvk"])}</span>'
+            f'</div><div class="ftr__onder"><span>&copy; {time.strftime("%Y")} {E(C["naam"])} · {E(C["bedrijf"])} · KvK {E(C["kvk"])}</span>'
             f'<span><a href="{r}privacy.html">Privacy</a><a href="{r}beeldverantwoording.html">Beeldverantwoording</a></span></div></div></footer>\n')
 
 
 def cta(r, titel='Vastgereden?', tekst='Bel of app ons direct. We zeggen eerlijk wanneer we er kunnen zijn.', plaats=''):
     msg = 'Hallo, mijn auto staat vast' + (f' in {plaats}' if plaats else '') + '.'
-    return (f'<section class="wrap" style="margin-top:clamp(64px,9vw,120px)"><div class="cta"><div><h2>{titel}</h2><p>{tekst}</p></div>'
+    return (f'<section class="wrap" style="margin-top:clamp(64px,9vw,120px)"><div class="cta rv"><div><h2>{titel}</h2><p>{tekst}</p></div>'
             f'<div><a class="cta__tel" href="tel:{C["telefoonLink"]}">{TELNR}</a><div class="cta__knoppen">'
             f'<a class="btn btn--groot" href="tel:{C["telefoonLink"]}">{icon("tel")}Bel direct</a>'
             f'<a class="btn btn--wa btn--groot" href="{wa(msg)}">{icon("wa")}WhatsApp</a></div></div></div></section>\n')
@@ -240,7 +241,7 @@ def head(r, titel, beschrijving, pad, schemas, og_beeld='og.jpg', noindex=False)
             f'<meta property="og:description" content="{E(beschrijving)}">\n<meta property="og:url" content="{canon}">\n'
             f'<meta property="og:image" content="{DOMEIN}/assets/img/{og_beeld}">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n'
             f'<meta name="twitter:card" content="summary_large_image">\n'
-            f'<meta name="theme-color" content="#222B2C">\n'
+            f'<meta name="theme-color" content="#15120E">\n'
             f'<link rel="icon" href="{r}favicon.svg" type="image/svg+xml">\n<link rel="icon" href="{r}favicon-32.png" sizes="32x32" type="image/png">\n'
             f'<link rel="apple-touch-icon" href="{r}apple-touch-icon.png">\n<link rel="manifest" href="{r}site.webmanifest">\n'
             f'<link rel="preload" href="{r}assets/fonts/barlow-condensed-800.woff2" as="font" type="font/woff2" crossorigin>\n'
@@ -293,7 +294,7 @@ def faq(vragen):
 
 
 def provkaarten(r, licht=False):
-    k = ''.join(f'<a class="provkaart" href="{r}werkgebied/{p["slug"]}/"><div><b>{E(p["naam"])}</b><span>{len(p["gemeenten"])} gemeenten</span></div></a>'
+    k = ''.join(f'<a class="provkaart" href="{r}werkgebied/{p["slug"]}/"><div><b>{E(p["naam"])}</b><span>{len(p["gemeenten"])} gemeenten</span></div>{icon("pijl")}</a>'
                 for p in PROVINCIES.values())
     return f'<div class="provkaarten{" provkaarten--licht" if licht else ""}">{k}</div>'
 
@@ -349,12 +350,13 @@ def pagina_home():
     sit_kaarten = ''
     for i, (sid, titel, beeld, kort, *_rest) in enumerate(SITUATIES[:5]):
         breed = ' situatie--breed' if i == 0 else ''
-        sit_kaarten += (f'<a class="situatie{breed}" href="situaties.html#{sid}">{img(r, beeld, "(max-width: 640px) 100vw, (max-width: 960px) 50vw, 33vw")}'
-                        f'<div class="situatie__tekst"><h3>{titel}</h3><p>{kort}</p><span class="pijl">Zo helpen wij</span></div></a>')
+        sit_kaarten += (f'<a class="situatie rv{breed}" href="situaties.html#{sid}">{img(r, beeld, "(max-width: 640px) 100vw, (max-width: 960px) 50vw, 33vw")}'
+                        f'<div class="situatie__tekst"><h3>{titel}</h3><p>{kort}</p><span class="pijl">Zo helpen wij {icon("pijl")}</span></div></a>')
     body = f'''<section class="hero">
   <div class="hero__beeld">{img(r, 'bmw-modder', '100vw', lui=False, alt='')}</div>
   <div class="wrap"><div class="hero__in">
-    <h1>Vast in de modder? Wij trekken u los.</h1>
+    <span class="boven">Vastgereden in modder, zand of sneeuw</span>
+    <h1>Vast in de modder? <em>Wij trekken u los.</em></h1>
     <p class="lead">Doorslaande wielen op een nat weiland, een wiel in de berm of vast in de sneeuw: wij komen met een terreinwagen, lier en bergingsbanden naar u toe en trekken uw auto zorgvuldig los.</p>
     <div class="hero__knoppen">
       <a class="btn btn--groot" href="tel:{C['telefoonLink']}">{icon('tel')}Bel {TELNR}</a>
@@ -365,10 +367,11 @@ def pagina_home():
   </div></div>
   <span class="hero__bron">Foto: Joost J. Bakker, CC BY 2.0</span>
 </section>
+<div class="strip"><div class="strip__in"><span>Modder</span><span>Weiland</span><span>Strand en wad</span><span>Berm</span><span>Sneeuw en ijzel</span></div></div>
 
 <section class="sec">
   <div class="wrap">
-    <div class="kop"><div><h2>Waar wij u uit halen</h2></div>
+    <div class="kop rv"><div><span class="boven">Situaties</span><h2>Waar wij u uit halen</h2></div>
       <p class="lead">Van een parkeerweiland na een regenbui tot een auto die tot de as in de klei staat. Elke situatie vraagt een andere aanpak, en die kennen we.</p></div>
     <div class="situaties">{sit_kaarten}</div>
   </div>
@@ -376,9 +379,9 @@ def pagina_home():
 
 <section class="sec sec--wit">
   <div class="wrap">
-    <div class="kop"><div><h2>Zo trekken wij u los</h2></div>
+    <div class="kop rv"><div><span class="boven">Werkwijze</span><h2>Zo trekken wij u los</h2></div>
       <p class="lead">Geen geforceerd getrek aan uw auto, maar een rustige, vaste aanpak die we bij elke klus volgen.</p></div>
-    <div class="aanpak">
+    <div class="aanpak rv">
       <div class="stap"><b>01</b><h3>Bel of app</h3><p>Deel uw locatie, het type auto en waar u in vastzit. Een foto helpt ons om met het juiste materiaal te komen.</p></div>
       <div class="stap"><b>02</b><h3>Wij komen eraan</h3><p>Met een terreinwagen, lier, bergingsbanden en zandplaten. U hoort vooraf hoe laat we er zijn en wat het kost.</p></div>
       <div class="stap"><b>03</b><h3>Losgetrokken</h3><p>We bevestigen de band aan het trekoog en trekken rustig en recht, tot uw auto weer op vaste grond staat.</p></div>
@@ -389,8 +392,9 @@ def pagina_home():
 
 <section class="sec">
   <div class="wrap twee">
-    <figure class="foto foto--hoog" style="margin:0">{img(r, 'wad-wiel', '(max-width: 960px) 100vw, 50vw')}<figcaption>Foto: Charlie, CC BY 2.0</figcaption></figure>
-    <div>
+    <figure class="foto foto--hoog rv" style="margin:0">{img(r, 'wad-wiel', '(max-width: 960px) 100vw, 50vw')}<figcaption>Foto: Charlie, CC BY 2.0</figcaption></figure>
+    <div class="rv">
+      <span class="boven">Vastgereden?</span>
       <h2>Dit doet u beter wel en niet</h2>
       <p class="lead" style="margin-top:16px">De eerste minuten bepalen vaak hoe diep de auto uiteindelijk vastzit. Met deze vijf punten maakt u het niet erger.</p>
       <ul class="regels">
@@ -406,21 +410,22 @@ def pagina_home():
 
 <section class="sec sec--donker">
   <div class="wrap gebied">
-    <div>
+    <div class="rv">
+      <span class="boven">Werkgebied</span>
       <h2>Overal in Nederland</h2>
       <p class="lead" style="margin-top:16px">Van de zandwegen in Drenthe tot de stranden in Zeeland en de polderklei in Flevoland: wij komen naar u toe, in alle 342 gemeenten van Nederland.</p>
       <div class="hero__knoppen" style="margin-top:28px"><a class="btn" href="tel:{C['telefoonLink']}">{icon('tel')}Bel {TELNR}</a><a class="btn btn--rand" href="werkgebied/">Bekijk alle gemeenten</a></div>
     </div>
-    <figure class="foto foto--breed" style="margin:0">{img(r, 'trekker-avond')}<figcaption>Foto: Stephen West, CC BY 2.0</figcaption></figure>
+    <figure class="foto foto--breed rv" style="margin:0">{img(r, 'trekker-avond')}<figcaption>Foto: Stephen West, CC BY 2.0</figcaption></figure>
   </div>
-  <div class="wrap" style="margin-top:clamp(40px,5vw,64px)">{provkaarten(r)}</div>
+  <div class="wrap rv" style="margin-top:clamp(40px,5vw,64px)">{provkaarten(r)}</div>
 </section>
 
 <section class="sec">
   <div class="wrap">
-    <div class="kop kop--midden"><div><h2>Veelgestelde vragen</h2></div></div>
-    <div>{faq(ALGEMENE_VRAGEN[:6])}</div>
-    <p style="text-align:center;margin:28px 0 0"><a class="pijl" href="veelgestelde-vragen.html">Alle vragen bekijken</a></p>
+    <div class="kop kop--midden rv"><div><span class="boven">Veelgestelde vragen</span><h2>Goed om te weten</h2></div></div>
+    <div class="rv">{faq(ALGEMENE_VRAGEN[:6])}</div>
+    <p style="text-align:center;margin:28px 0 0"><a class="pijl" href="veelgestelde-vragen.html">Alle vragen bekijken {icon('pijl')}</a></p>
   </div>
 </section>
 {cta(r)}'''
@@ -434,8 +439,8 @@ def pagina_situaties():
     rijen = ''
     for sid, titel, beeld, kort, lang, punten in SITUATIES:
         maker = BEELD[beeld][1]; lic = BEELD[beeld][2]
-        rijen += (f'<div class="sit-rij" id="{sid}"><figure class="foto foto--breed" style="margin:0">{img(r, beeld)}<figcaption>Foto: {E(maker)}, {lic}</figcaption></figure>'
-                  f'<div><h2>{titel}</h2><p class="lead">{kort}</p><p>{lang}</p>{vinkjes(punten)}'
+        rijen += (f'<div class="sit-rij" id="{sid}"><figure class="foto foto--breed rv" style="margin:0">{img(r, beeld)}<figcaption>Foto: {E(maker)}, {lic}</figcaption></figure>'
+                  f'<div class="rv"><h2>{titel}</h2><p class="lead">{kort}</p><p>{lang}</p>{vinkjes(punten)}'
                   f'<div class="hero__knoppen" style="margin-top:26px"><a class="btn" href="hulp-aanvragen.html?ondergrond={quote(ONDERGROND_VOOR[sid])}">Hulp aanvragen</a>'
                   f'<a class="btn btn--licht" href="tel:{C["telefoonLink"]}">Bel {TELNR}</a></div></div></div>')
     body = (pkop(r, 'Situaties waarin wij u lostrekken', 'Modder, gras, zand, sneeuw of een zachte berm: elke ondergrond vraagt een eigen aanpak. Hieronder leest u hoe wij te werk gaan en waar u op kunt letten.',
@@ -618,10 +623,10 @@ def gemeente_pagina(i, g):
   <div class="kaart kaart--donker"><h3>Vast in {E(G)}?</h3><p>Geef door waar u vastzit, deel uw locatie en verstuur alles in één WhatsApp-bericht.</p>
     <a class="btn btn--vol" href="{r}hulp-aanvragen.html?plaats={quote(G)}">Hulp aanvragen</a><a class="btn btn--rand btn--vol" href="tel:{C['telefoonLink']}">{icon('tel')}Bel {TELNR}</a></div>
   <div class="kaart"><h3>Ook in de buurt</h3><ul class="buren">{burenlijst}</ul>
-    <p style="margin:14px 0 0"><a class="pijl" href="{r}werkgebied/{g['prov_slug']}/">Alle gemeenten in {E(P)}</a></p></div>
+    <p style="margin:14px 0 0"><a class="pijl" href="{r}werkgebied/{g['prov_slug']}/">Alle gemeenten in {E(P)} {icon('pijl')}</a></p></div>
 </aside>
 </div></section>
-<section class="sec sec--wit"><div class="wrap"><div class="kop kop--midden"><div><h2>Vastgereden in {E(G)}</h2></div></div>{faq(vragen)}</div></section>
+<section class="sec sec--wit"><div class="wrap"><div class="kop kop--midden"><div><span class="boven">Veelgestelde vragen</span><h2>Vastgereden in {E(G)}</h2></div></div>{faq(vragen)}</div></section>
 ''' + cta(r, f'Vast in {E(G)}?', 'Bel of app ons direct. We zeggen eerlijk wanneer we er kunnen zijn.', plaats=G))
     titel = f'Auto vast in de modder in {G}? | Lostrek'
     if len(titel) > 60:
@@ -644,7 +649,7 @@ def provincie_pagina(p):
     body = (pkop(r, f'Auto vast in de provincie {E(p["naam"])}?', f'Wij trekken vastgereden auto\'s los in alle {len(p["gemeenten"])} gemeenten van {E(p["naam"])}. {E(land_tekst)}',
                  'trekker-avond', [('Home', ''), ('Werkgebied', 'werkgebied/'), (p['naam'], '')])
             + f'''<section class="sec"><div class="wrap">
-<div class="kop"><div><h2>Kies uw gemeente</h2></div><p class="lead">Op elke gemeentepagina vindt u de woonplaatsen, de buurgemeenten en antwoord op de vragen die we daar het vaakst krijgen.</p></div>
+<div class="kop"><div><span class="boven">{E(p['naam'])}</span><h2>Kies uw gemeente</h2></div><p class="lead">Op elke gemeentepagina vindt u de woonplaatsen, de buurgemeenten en antwoord op de vragen die we daar het vaakst krijgen.</p></div>
 <ul class="gemlijst">{lijst}</ul>
 <h3 style="margin:48px 0 12px">Waar wij in {E(p['naam'])} vaak helpen</h3>{vinkjes([E(x) for x in plekken])}
 </div></section>
@@ -677,7 +682,7 @@ def overig():
     (SITE / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + '</urlset>\n', encoding='utf-8')
     (SITE / 'robots.txt').write_text(f'User-agent: *\nAllow: /\n\nSitemap: {DOMEIN}/sitemap.xml\n', encoding='utf-8')
     (SITE / 'site.webmanifest').write_text(json.dumps({'name': C['naam'], 'short_name': C['naam'], 'start_url': '/', 'display': 'standalone',
-                                                        'background_color': '#222B2C', 'theme_color': '#222B2C',
+                                                        'background_color': '#15120E', 'theme_color': '#15120E',
                                                         'icons': [{'src': '/icon-192.png', 'sizes': '192x192', 'type': 'image/png'},
                                                                   {'src': '/icon-512.png', 'sizes': '512x512', 'type': 'image/png'}]}, ensure_ascii=False, indent=1), encoding='utf-8')
     (SITE / 'favicon.svg').write_text(LOGO_MERK.replace(' class="logo__merk"', ' xmlns="http://www.w3.org/2000/svg"').replace(' aria-hidden="true"', ''), encoding='utf-8')
