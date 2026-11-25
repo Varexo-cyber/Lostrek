@@ -118,7 +118,7 @@ h3 { font-size: 1.45rem; line-height: 1.1; }
 .hero__punten { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 34px 0 0; padding: 0; list-style: none; color: #E9E3D9; font-weight: 600; }
 .hero__punten li { display: flex; align-items: center; gap: 9px; }
 .hero__punten svg { width: 20px; height: 20px; color: var(--oranje-2); }
-.hero__bron { position: absolute; right: var(--gut); bottom: 14px; font-size: .74rem; color: rgba(255, 255, 255, .55); }
+.hero__bron { position: absolute; left: var(--gut); bottom: 14px; font-size: .74rem; color: rgba(255, 255, 255, .55); }
 
 /* strip met situaties direct onder de hero */
 .strip { background: var(--oranje); color: #fff; }
@@ -356,3 +356,9 @@ textarea.inp { min-height: 96px; resize: vertical; }
   .rv { opacity: 1; transform: none; transition: none; }
   .situatie img, .btn { transition: none; }
 }
+
+/* WhatsApp-knop rechtsonder (op mobiel zit WhatsApp al in de balk onderin) */
+.wa-knop { position: fixed; right: 24px; bottom: 24px; z-index: 96; display: flex; align-items: center; gap: 10px; height: 60px; padding: 0 22px 0 16px; border-radius: 30px; background: var(--groen); color: #fff; text-decoration: none; font-weight: 700; font-size: 1.02rem; box-shadow: 0 10px 28px -10px rgba(0, 0, 0, .5); transition: background .15s; }
+.wa-knop:hover { background: #0E8F48; }
+.wa-knop svg { width: 30px; height: 30px; flex: none; }
+@media (max-width: 640px) { .wa-knop { display: none; } }
