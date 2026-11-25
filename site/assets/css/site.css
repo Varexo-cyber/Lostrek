@@ -397,3 +397,7 @@ textarea.inp { min-height: 96px; resize: vertical; }
   .situaties--vier { grid-template-columns: 1fr; }
 }
 .hero h1 em { display: block; }
+.burger { flex: none; }
+/* WhatsApp staat al als vaste knop rechtsonder, dus niet nog eens in de header */
+.hdr__knop .btn--wa { display: none; }
+@media (max-width: 380px) { .logo b { font-size: 1.22rem; } .logo__merk { width: 30px; height: 30px; } .logo { gap: 9px; } }
