@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lostrek.nl/sitemap.xml
+Sitemap: https://mobieleautobanden.nl/sitemap.xml

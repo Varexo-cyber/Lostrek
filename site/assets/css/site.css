@@ -362,3 +362,38 @@ textarea.inp { min-height: 96px; resize: vertical; }
 .wa-knop:hover { background: #0E8F48; }
 .wa-knop svg { width: 30px; height: 30px; flex: none; }
 @media (max-width: 640px) { .wa-knop { display: none; } }
+
+/* Bandenmaat-invoer in de hero, met directe knop naar WhatsApp */
+.maat { max-width: 640px; margin: 0; padding: 20px; border-radius: var(--r-lg); background: rgba(21, 18, 14, .72); border: 1px solid rgba(255, 255, 255, .14); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.maat__titel { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; font-weight: 700; color: #fff; font-size: 1.08rem; }
+.maat__titel svg { width: 22px; height: 22px; color: var(--oranje-2); }
+.maat__rij { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; }
+.maat__invoer { min-height: 56px; padding: 0 16px; border: 0; border-radius: var(--r); background: #fff; color: var(--klei); font-family: var(--fk); font-weight: 800; font-size: 1.5rem; letter-spacing: .03em; min-width: 0; }
+.maat__invoer::placeholder { color: #B7AEA2; }
+.maat__invoer:focus { outline: 3px solid var(--oranje-2); outline-offset: 2px; }
+.maat__dienst { min-height: 56px; padding: 0 12px; border: 0; border-radius: var(--r); background: #fff; color: var(--klei); font-weight: 600; }
+.maat .btn { min-height: 56px; }
+.maat__noot { margin: 12px 0 0; font-size: .92rem; color: #D8D0C3; }
+.maat__noot b { color: #fff; }
+
+/* vier diensten naast elkaar */
+.situaties--vier { grid-template-columns: repeat(4, 1fr); }
+.situaties--vier .situatie { min-height: 400px; }
+
+/* thuis, op het werk, langs de weg */
+.plekken { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.plek .foto { margin-bottom: 18px; }
+.plek h3 { margin-bottom: 8px; }
+.plek p { color: var(--zacht); margin: 0; }
+
+/* uitleg bandenmaat: de code zelf in het rondje */
+.regels i { width: auto; min-width: 46px; height: 34px; padding: 0 8px; border-radius: 6px; font-family: var(--fk); font-weight: 800; font-size: 1.05rem; }
+.regels li { grid-template-columns: auto 1fr; }
+
+@media (max-width: 1100px) { .situaties--vier { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 960px) { .plekken { grid-template-columns: 1fr; } }
+@media (max-width: 640px) {
+  .maat__rij { grid-template-columns: 1fr; }
+  .situaties--vier { grid-template-columns: 1fr; }
+}
+.hero h1 em { display: block; }

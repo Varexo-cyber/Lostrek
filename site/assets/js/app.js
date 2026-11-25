@@ -1,4 +1,4 @@
-/* Lostrek — menu, hulpmelder en kleine interacties.
+/* Mobiele Autobanden — menu, bandenmaat, hulpmelder en kleine interacties.
    Bedrijfsgegevens komen uit window.SITE (assets/js/config.js). */
 (function () {
   'use strict';
@@ -37,6 +37,21 @@
     }, true);
   });
 
+  /* bandenmaat in de hero: direct naar WhatsApp */
+  document.querySelectorAll('[data-maat]').forEach(function (m) {
+    var invoer = m.querySelector('[name=maat]'), dienst = m.querySelector('[name=dienst]'), knop = m.querySelector('[data-maat-wa]');
+    function maatBericht() {
+      var r = ['Hallo, ik heb een vraag over mijn autobanden.', '', 'Ik zoek: ' + dienst.value];
+      var w = invoer.value.trim().toUpperCase();
+      r.push('Bandenmaat: ' + (w || 'weet ik niet, ik stuur een foto'));
+      if (knop.dataset.plaats) r.push('Plaats: ' + knop.dataset.plaats);
+      return r.join('\n');
+    }
+    function zet() { knop.href = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(maatBericht()); }
+    invoer.addEventListener('input', zet); dienst.addEventListener('change', zet); zet();
+    invoer.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); knop.click(); } });
+  });
+
   /* hulpmelder */
   var form = document.querySelector('[data-melder]');
   if (!form) return;
@@ -46,15 +61,17 @@
   var locInput = form.querySelector('[name=locatie]');
   var coords = null;
 
-  /* voorinvullen vanuit de url, bv. ?ondergrond=sneeuw&plaats=Assen */
+  /* voorinvullen vanuit de url, bv. ?dienst=Lekke%20band&plaats=Assen&maat=205/55%20R16 */
   var params = new URLSearchParams(location.search);
-  ['ondergrond', 'voertuig'].forEach(function (naam) {
+  ['dienst'].forEach(function (naam) {
     var w = params.get(naam);
     if (!w) return;
     var el = form.querySelector('input[name="' + naam + '"][value="' + CSS.escape(w) + '"]');
     if (el) el.checked = true;
   });
   if (params.get('plaats') && locInput && !locInput.value) locInput.value = params.get('plaats');
+  var maatVeld = form.querySelector('[name=maat]');
+  if (params.get('maat') && maatVeld) maatVeld.value = params.get('maat');
 
   function waarde(naam) {
     var el = form.querySelector('input[name="' + naam + '"]:checked');
@@ -66,12 +83,13 @@
   }
 
   function bericht() {
-    var r = ['Hulp gevraagd via de website van ' + (SITE.naam || 'Lostrek'), ''];
-    var o = waarde('ondergrond'), v = waarde('voertuig'), s = waarde('vast'), a = waarde('aandrijving');
-    if (o) r.push('Vast in: ' + o);
-    if (v) r.push('Voertuig: ' + v);
-    if (a) r.push('Aandrijving: ' + a);
-    if (s) r.push('Situatie: ' + s);
+    var r = ['Aanvraag via de website van ' + (SITE.naam || 'Mobiele Autobanden'), ''];
+    var d = waarde('dienst'), so = waarde('soort'), pl = waarde('plek');
+    if (d) r.push('Ik zoek: ' + d);
+    var m = veld('maat'); r.push('Bandenmaat: ' + (m ? m.toUpperCase() : 'weet ik niet, ik stuur een foto'));
+    var aantal = veld('aantal'); if (aantal) r.push('Aantal banden: ' + aantal);
+    if (so) r.push('Soort band: ' + so);
+    if (pl) r.push('De auto staat: ' + pl.toLowerCase());
     var k = veld('kenteken'); if (k) r.push('Kenteken: ' + k.toUpperCase());
     var l = veld('locatie'); if (l) r.push('Locatie: ' + l);
     if (coords) r.push('GPS: https://maps.google.com/?q=' + coords.lat.toFixed(6) + ',' + coords.lon.toFixed(6));
