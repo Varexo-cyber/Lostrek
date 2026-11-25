@@ -3,8 +3,8 @@
  "short_name": "Lostrek",
  "start_url": "/",
  "display": "standalone",
- "background_color": "#15120E",
- "theme_color": "#15120E",
+ "background_color": "#222B2C",
+ "theme_color": "#222B2C",
  "icons": [
   {
    "src": "/icon-192.png",
