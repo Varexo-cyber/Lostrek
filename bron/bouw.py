@@ -192,6 +192,7 @@ def head(r, titel, beschrijving, pad, schemas, og_beeld='og.jpg', noindex=False)
     robots = '<meta name="robots" content="noindex">\n' if noindex else ''
     return (f'<!DOCTYPE html>\n<html lang="nl">\n<head>\n<meta charset="utf-8">\n'
             f'<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+            '<script>if(!window.matchMedia||!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("anim")</script>\n'
             f'<title>{E(titel)}</title>\n<meta name="description" content="{E(beschrijving)}">\n{robots}'
             f'<link rel="canonical" href="{canon}">\n{verif}'
             f'<meta property="og:type" content="website">\n<meta property="og:locale" content="nl_NL">\n'
