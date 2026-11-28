@@ -6,6 +6,9 @@
   command = "python3 bron/bouw.py"
   publish = "site"
 
+[functions]
+  directory = "netlify/functions"
+
 [[redirects]]
   from = "/index.html"
   to = "/"
