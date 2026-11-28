@@ -138,7 +138,7 @@ def footer(r):
             f'<div><h2 class="ftr__kop">Diensten</h2><ul>{diensten}<li><a href="{r}hulp-aanvragen.html">Hulp aanvragen</a></li></ul></div>'
             f'<div><h2 class="ftr__kop">Werkgebied</h2><ul class="ftr__provs">{provs}</ul></div>'
             f'<div><h2 class="ftr__kop">Contact</h2><ul><li><a href="tel:{C["telefoonLink"]}">{TELNR}</a></li>'
-            f'<li><a href="{wa(WA_STANDAARD)}">WhatsApp</a></li><li><a href="{r}hulp-aanvragen.html">Hulp aanvragen</a></li>'
+            f'<li><a href="{wa(WA_STANDAARD)}">WhatsApp</a></li>' + (f'<li><a href="mailto:{E(C["email"])}">{E(C["email"])}</a></li>' if C['email'] else '') + f'<li><a href="{r}hulp-aanvragen.html">Hulp aanvragen</a></li>'
             f'<li><a href="{r}veelgestelde-vragen.html">Veelgestelde vragen</a></li><li><a href="{r}contact.html">Contact</a></li></ul></div>'
             f'</div><div class="ftr__onder"><span>&copy; {time.strftime("%Y")} {E(C["naam"])} is een handelsnaam van {E(C["bedrijf"])}, KvK {E(C["kvk"])}</span>'
             f'<span><a href="{r}privacy.html">Privacy</a><a href="{r}beeldverantwoording.html">Beeldverantwoording</a></span></div></div></footer>\n')
@@ -511,6 +511,25 @@ def pagina_contact():
   <div class="kaart kaart--donker"><h2 style="font-size:1.6rem;margin-bottom:12px;color:#fff">Hulp nodig?</h2><p>Geef uw bandenmaat en locatie door, dan komen we met de juiste band.</p>
     <a class="btn btn--vol" href="hulp-aanvragen.html">Hulp aanvragen</a><a class="btn btn--wa btn--vol" href="{wa(WA_STANDAARD)}">{icon('wa')}WhatsApp</a></div>
 </div></section>
+<section class="sec" style="padding-top:0"><div class="wrap twee" style="align-items:start">
+  <form class="kaart contactform" name="contact" method="POST" action="/bedankt.html" data-netlify="true" netlify-honeypot="bot-veld">
+    <input type="hidden" name="form-name" value="contact">
+    <p class="sr"><label>Dit veld niet invullen <input name="bot-veld" type="text" tabindex="-1" autocomplete="off"></label></p>
+    <h2 style="font-size:1.6rem;margin-bottom:8px">Stuur ons een bericht</h2>
+    <p style="margin:0 0 20px;color:var(--zacht)">Voor een vraag, een prijsopgave voor nieuwe banden of afspraken voor uw wagenpark. Heeft u nu een lekke band? Bel of app dan, dat is sneller.</p>
+    <div class="velden">
+      <div class="veld"><label for="c-naam">Naam *</label><input class="inp" id="c-naam" name="naam" type="text" autocomplete="name" required></div>
+      <div class="veld"><label for="c-tel">Telefoon</label><input class="inp" id="c-tel" name="telefoon" type="tel" autocomplete="tel" inputmode="tel"></div>
+      <div class="veld"><label for="c-mail">E-mail *</label><input class="inp" id="c-mail" name="email" type="email" autocomplete="email" required></div>
+      <div class="veld"><label for="c-maat">Bandenmaat (als u die weet)</label><input class="inp" id="c-maat" name="bandenmaat" type="text" autocomplete="off" placeholder="205/55 R16"></div>
+      <div class="veld veld--vol"><label for="c-onderwerp">Onderwerp</label><select class="inp" id="c-onderwerp" name="onderwerp"><option>Algemene vraag</option><option>Prijsopgave nieuwe banden</option><option>Seizoenswissel plannen</option><option>Zakelijk of wagenpark</option><option>Anders</option></select></div>
+      <div class="veld veld--vol"><label for="c-bericht">Bericht *</label><textarea class="inp" id="c-bericht" name="bericht" rows="5" required></textarea></div>
+    </div>
+    <button class="btn btn--groot" type="submit" style="margin-top:18px">Bericht versturen</button>
+    <p style="margin:14px 0 0;font-size:.88rem;color:var(--zacht)">Uw bericht komt binnen op {E(C['email'])}. We gebruiken uw gegevens alleen om te reageren, zie onze <a href="privacy.html">privacyverklaring</a>.</p>
+  </form>
+  <figure class="foto foto--hoog" style="margin:0">{img(r, 'wiel-krik', '(max-width: 960px) 100vw, 50vw')}<figcaption>Foto: Santeri Viinamäki, CC BY-SA 4.0</figcaption></figure>
+</div></section>
 ''' + cta(r))
     schrijf('contact.html', r, 'Contact | Mobiele Autobanden', 'Bel of app Mobiele Autobanden op 085 744 4166 voor een lekke band, nieuwe banden of de seizoenswissel. Een handelsnaam van D&D Mobiliteit B.V.',
             'contact', body, [('Home', '/'), ('Contact', '/contact.html')], prioriteit='0.6')
@@ -553,6 +572,16 @@ def pagina_404():
             f'<a class="btn btn--wa btn--groot" href="{wa(WA_STANDAARD)}">{icon("wa")}WhatsApp</a>'
             f'<a class="btn btn--rand btn--groot" href="/">Naar de homepage</a></div></div></div></section>\n')
     schrijf('404.html', r, 'Pagina niet gevonden | Mobiele Autobanden', 'Deze pagina bestaat niet. Bel of app Mobiele Autobanden op 085 744 4166.', '404', body, noindex=True)
+
+
+def pagina_bedankt():
+    r = '/'
+    body = (f'<section class="pkop"><div class="wrap"><div class="pkop__in"><h1>Bedankt voor uw bericht</h1>'
+            f'<p class="lead">Uw bericht is verstuurd. We nemen zo snel mogelijk contact met u op. Heeft u nu een lekke band? Bel of app ons dan direct.</p>'
+            f'<div class="hero__knoppen" style="margin-top:28px"><a class="btn btn--groot" href="tel:{C["telefoonLink"]}">{icon("tel")}Bel {TELNR}</a>'
+            f'<a class="btn btn--wa btn--groot" href="{wa(WA_STANDAARD)}">{icon("wa")}WhatsApp</a>'
+            f'<a class="btn btn--rand btn--groot" href="/">Naar de homepage</a></div></div></div></section>\n')
+    schrijf('bedankt.html', r, 'Bedankt voor uw bericht | Mobiele Autobanden', 'Uw bericht aan Mobiele Autobanden is verstuurd.', 'bedankt', body, noindex=True)
 
 
 INTRO = [
@@ -679,7 +708,7 @@ if __name__ == '__main__':
             shutil.rmtree(p)
         elif p.exists():
             p.unlink()
-    pagina_home(); pagina_diensten(); pagina_hulp(); pagina_vragen(); pagina_contact(); pagina_privacy(); pagina_beeld(); pagina_404()
+    pagina_home(); pagina_diensten(); pagina_hulp(); pagina_vragen(); pagina_contact(); pagina_privacy(); pagina_beeld(); pagina_404(); pagina_bedankt()
     werkgebied_pagina()
     for p in PROVINCIES.values():
         provincie_pagina(p)
